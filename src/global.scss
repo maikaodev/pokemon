@@ -1,0 +1,9 @@
+$bgBody: red;
+
+body {
+  background-color: $bgBody;
+  display: grid;
+  place-items: center;
+
+  height: 100vh;
+}
