@@ -4,12 +4,36 @@ $fontColor: #fff;
 body {
   background-color: $bgBody;
   color: $fontColor;
-  display: grid;
-  place-items: center;
 
   height: 100vh;
 }
 a {
   color: $fontColor;
   text-decoration: none;
+}
+
+body #app {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  gap: 16px;
+
+  font-family: "Inter", sans-serif;
+}
+header {
+  grid-area: header;
+  height: 10vh;
+  width: 100%;
+}
+main {
+  grid-area: main;
+  height: 80vh;
+  width: 100%;
+}
+footer {
+  grid-area: footer;
+  height: 10vh;
+  width: 100%;
 }
