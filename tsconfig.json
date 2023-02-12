@@ -24,7 +24,9 @@
     "src/**/*.vue",
     "src/plugins/router.js",
     "src/plugins/router.js",
-    "src/plugins/router.js"
+    "src/plugins/router.js",
+    "src/stores/CounterStore.ts",
+    "src/stores/CounterStore.ts"
   ],
   "references": [
     {
