@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
 import Navbar from "./components/Navbar/index.vue";
+import SocialNetwork from "./components/SocialNetwork/index.vue";
 </script>
 
 <template>
@@ -11,6 +12,6 @@ import Navbar from "./components/Navbar/index.vue";
     <router-view />
   </main>
   <footer>
-    <h1>Rede Socias</h1>
+    <SocialNetwork />
   </footer>
 </template>
