@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
+import Navbar from "./components/Navbar/index.vue";
+import SocialNetwork from "./components/SocialNetwork/index.vue";
 </script>
 
 <template>
-  <div>
-    <router-link :to="{ name: 'home' }">Go to Home</router-link>
-    <router-link :to="{ name: 'about' }">About</router-link>
-  </div>
-  <router-view />
+  <header>
+    <Navbar />
+  </header>
+  <main>
+    <router-view />
+  </main>
+  <footer>
+    <SocialNetwork />
+  </footer>
 </template>

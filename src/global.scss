@@ -1,15 +1,45 @@
 $bgBody: #222;
 $fontColor: #fff;
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: $bgBody;
   color: $fontColor;
-  display: grid;
-  place-items: center;
 
   height: 100vh;
 }
 a {
   color: $fontColor;
   text-decoration: none;
+}
+
+body #app {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  gap: 16px;
+
+  font-family: "Inter", sans-serif;
+}
+header {
+  grid-area: header;
+  height: 10vh;
+  width: 100%;
+}
+main {
+  grid-area: main;
+  height: 75vh;
+  width: 100%;
+}
+footer {
+  grid-area: footer;
+  height: 10vh;
+  width: 100%;
 }
