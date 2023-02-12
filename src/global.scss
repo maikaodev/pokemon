@@ -1,9 +1,15 @@
-$bgBody: red;
+$bgBody: #222;
+$fontColor: #fff;
 
 body {
   background-color: $bgBody;
+  color: $fontColor;
   display: grid;
   place-items: center;
 
   height: 100vh;
+}
+a {
+  color: $fontColor;
+  text-decoration: none;
 }
