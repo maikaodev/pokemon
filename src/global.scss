@@ -1,6 +1,12 @@
 $bgBody: #222;
 $fontColor: #fff;
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   background-color: $bgBody;
   color: $fontColor;
