@@ -18,6 +18,8 @@
       </form>
     </section>
 
+    <Alert v-if="alert_message" :message="alert_message" />
+
     <section v-show="showCard" class="card">
       <img :src="url_img" :alt="name" />
       <router-link :to="link">
@@ -33,6 +35,8 @@
 </template>
 
 <script lang="ts">
+// Components
+import Alert from "../components/Alert/index.vue";
 // Functions - utils
 import { fetchData } from "../utils/fetchData";
 
@@ -46,6 +50,7 @@ import { DataProps, TypeProps } from "../types/pages";
 
 export default {
   name: "Home",
+  components: { Alert },
   data() {
     return {
       pokeName: "",
@@ -53,6 +58,7 @@ export default {
       url_img: "",
       types: [] as TypeProps[],
       showCard: false,
+      alert_message: "",
     };
   },
   methods: {
@@ -66,6 +72,12 @@ export default {
       const dataDefault: DataProps = await fetchData(
         `${store.url_default + store.pokename}`
       );
+
+      if (dataDefault.error) {
+        this.pokeName = "";
+
+        return (this.alert_message = dataDefault.message);
+      }
 
       this.name = dataDefault.name;
       this.url_img = dataDefault.sprites.front_default;
