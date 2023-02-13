@@ -5,12 +5,12 @@ const routes = [
   {
     path: "/detalhes/:name",
     name: "details",
-    component: () => import("../pages/Details.vue"),
+    component: () => import("@/pages/Details.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
-    component: import("@/pages/NotFound.vue"),
+    component: () => import("@/pages/NotFound.vue"),
   },
 ];
 

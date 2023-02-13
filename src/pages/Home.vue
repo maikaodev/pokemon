@@ -2,11 +2,11 @@
   <div class="container">
     <div class="header">
       <h1>Pokémundo</h1>
-      <p>Aqui você encontra tudos sobre o seu pokémon preferido</p>
+      <p>Aqui você encontra tudo sobre o seu Pokémon preferido</p>
     </div>
 
     <section class="content">
-      <form @submit.prevent>
+      <form @submit.prevent="findPokemon">
         <input
           v-model="pokeName"
           type="text"
@@ -14,83 +14,73 @@
           aria-label="Encontre seu pokémon"
           required
         />
-        <button type="submit" @click="findPokemon">Buscar</button>
+        <button type="submit">Buscar</button>
       </form>
     </section>
 
     <Alert v-if="alert_message" :message="alert_message" />
 
-    <section v-show="showCard" class="card">
-      <img :src="url_img" :alt="name" />
-      <router-link :to="link">
-        <span>{{ name }}</span>
-      </router-link>
+    <router-link
+      v-show="showCard"
+      :to="pokeData.detailsUrl || '/'"
+      class="card"
+    >
+      <img :src="pokeData.sprites?.front_default" :alt="pokeData.name" />
+      <span>{{ pokeData.name }}</span>
       <ul>
-        <li v-for="(type, index) in types" :key="index" :class="type.type.name">
+        <li
+          v-for="(type, index) in pokeData.types"
+          :key="index"
+          :class="type.type.name"
+        >
           {{ type.type.name }}
         </li>
       </ul>
-    </section>
+    </router-link>
   </div>
 </template>
 
 <script lang="ts">
-// Components
 import Alert from "../components/Alert/index.vue";
-// Functions - utils
-import { fetchData } from "../utils/fetchData";
 
-// Store
 import { pokeDataStore } from "../stores/pokeDataStore";
+import { PokemonProps } from "../types/pages";
 
 const store = pokeDataStore();
-
-// Ts
-import { DataProps, TypeProps } from "../types/pages";
 
 export default {
   name: "Home",
   components: { Alert },
   data() {
     return {
+      pokeData: {} as PokemonProps,
       pokeName: "",
-      name: "",
-      url_img: "",
-      types: [] as TypeProps[],
       showCard: false,
       alert_message: "",
     };
   },
   methods: {
     async findPokemon() {
-      //
-
       if (!this.pokeName) return;
 
-      store.setPokename(this.pokeName);
+      const data = await store.getPokemon(this.pokeName);
 
-      const dataDefault: DataProps = await fetchData(
-        `${store.url_default + store.pokename}`
-      );
-
-      if (dataDefault.error) {
+      if ("error" in data) {
         this.pokeName = "";
-
-        return (this.alert_message = dataDefault.message);
+        this.showCard = false;
+        this.pokeData = {} as PokemonProps;
+        this.alert_message = data.message;
+        return;
       }
 
-      this.name = dataDefault.name;
-      this.url_img = dataDefault.sprites.front_default;
-      this.types = dataDefault.types;
-
-      store.setStats(dataDefault.stats);
+      this.pokeData = data;
       this.showCard = true;
       this.pokeName = "";
     },
   },
-  computed: {
-    link() {
-      return `/detalhes/${this.name}`;
+  watch: {
+    pokeName(value) {
+      if (value) this.alert_message = "";
     },
   },
 };
@@ -168,15 +158,13 @@ export default {
         transform: translateY(-20px);
       }
     }
-    a {
-      span {
-        display: block;
-        text-transform: capitalize;
+    span {
+      display: block;
+      text-transform: capitalize;
 
-        font-weight: 700;
-        font-size: 24px;
-        cursor: pointer;
-      }
+      font-weight: 700;
+      font-size: 24px;
+      cursor: pointer;
     }
 
     ul {

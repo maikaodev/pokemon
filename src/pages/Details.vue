@@ -1,187 +1,110 @@
-<script lang="ts">
-// Component
-import Alert from "../components/Alert/index.vue";
-// Functions - utils
-import { fetchData } from "../utils/fetchData";
-// Store
-import { pokeDataStore } from "../stores/pokeDataStore";
-
-const store = pokeDataStore();
-
-// TS
-import { RouterLink } from "vue-router";
-import { DataProps, StatsProps } from "../types/pages";
-import { capitilized } from "../utils/capitilized";
-type SpeciesProps = DataProps & {
-  evolution_chain: {
-    url: string;
-  };
-};
-
-export default {
-  name: "Details",
-  components: { Alert, RouterLink },
-  data() {
-    const stats: StatsProps[] = [];
-    return {
-      name: this.$route.params.name.toString(),
-      url_img: "",
-      stats,
-      evolutions: [
-        {
-          name: "",
-          url: "",
-          link_img: "",
-        },
-        {
-          name: "",
-          url: "",
-          link_img: "",
-        },
-        {
-          name: "",
-          url: "",
-          link_img: "",
-        },
-      ],
-      weight: 0,
-      height: 0,
-      base_experience: 0,
-      type: [],
-      showIt: false,
-      showMenu: false,
-      alert_message: "",
-    };
-  },
-  created() {
-    this.gettingData();
-  },
-
-  methods: {
-    async gettingData() {
-      //
-      const name = this.$route.params.name.toString();
-
-      // Datas
-      const defaultData: DataProps = await fetchData(
-        `${store.url_default}${name.toLowerCase()}`
-      );
-      const speciesData: SpeciesProps = await fetchData(
-        `${store.url_species}${name.toLowerCase()}`
-      );
-
-      // Error
-
-      if (defaultData.error || speciesData.error) {
-        return (this.alert_message = defaultData.message);
-      }
-
-      // States
-
-      this.url_img = defaultData.sprites.front_default;
-      this.stats = defaultData.stats;
-      this.weight = defaultData.weight;
-      this.height = defaultData.height;
-      this.base_experience = defaultData.base_experience;
-
-      const dataEvolution = await fetchData(speciesData.evolution_chain.url);
-
-      const chain = dataEvolution.chain;
-
-      if (chain.species?.name) {
-        const name = chain.species.name;
-        this.evolutions[0].name = name;
-        this.evolutions[0].url = `/detalhes/${name}`;
-      }
-      if (chain.evolves_to) {
-        const name = chain.evolves_to[0].species.name;
-        this.evolutions[1].name = name;
-        this.evolutions[1].url = `/detalhes/${name}`;
-      }
-      if (chain.evolves_to[0].evolves_to) {
-        const name = chain.evolves_to[0].evolves_to[0].species.name;
-        this.evolutions[2].name = name;
-        this.evolutions[2].url = `/detalhes/${name}`;
-      }
-      this.showIt = true;
-
-      this.setUrlImg();
-    },
-    async setUrlImg() {
-      this.evolutions.forEach(async (evolution) => {
-        const data: DataProps = await fetchData(
-          `${store.url_default}${evolution.name}`
-        );
-
-        evolution.link_img = data.sprites.front_default;
-      });
-    },
-    showOrHidden() {
-      this.showMenu = !this.showMenu;
-    },
-  },
-  computed: {
-    nameCapitalized() {
-      return capitilized(this.name);
-    },
-    firstEvolution(): string {
-      return capitilized(this.evolutions[0].name);
-    },
-    middleEvolution(): string {
-      return capitilized(this.evolutions[1].name);
-    },
-    lastEvolution(): string {
-      return capitilized(this.evolutions[2].name);
-    },
-  },
-};
-</script>
 <template>
   <div v-show="alert_message" class="alert_component">
     <Alert :message="alert_message" />
     <router-Link to="/">Página Inicial</router-Link>
   </div>
-  <div v-show="showIt" class="container">
-    <h1>Nome: {{ nameCapitalized }}</h1>
-    <img :src="url_img" :alt="name" @click="showOrHidden" />
-    <section class="content">
-      <!-- IMG -->
-      <!-- IMG -->
 
-      <!-- Stats -->
+  <div v-show="showIt" class="container">
+    <h1>{{ pokemonDetails.name }}</h1>
+
+    <img
+      :src="pokemonDetails.sprites?.front_default"
+      :alt="pokemonDetails.name"
+    />
+
+    <section class="content">
       <section class="stats">
         <ul>
-          <li>Peso: {{ weight }}</li>
-          <li>Altura: {{ height }}</li>
-          <li>Experiência: {{ base_experience }}</li>
+          <li>Peso: {{ pokemonDetails.weight }} kg</li>
+          <li>Altura: {{ pokemonDetails.height }} cm</li>
+          <li>Experiência: {{ pokemonDetails.base_experience }}</li>
         </ul>
+
+        <button @click="toggleMoreInfo">
+          Ver {{ showMoreInfo ? "menos" : "mais" }}
+        </button>
       </section>
-      <!-- Stats -->
 
-      <!-- Stats - ADVANCED -->
-
-      <section v-show="showMenu" class="stats_advanced">
+      <section v-show="showMoreInfo" class="stats_advanced">
         <ul>
-          <li v-for="(stat, index) in stats" :key="index">
-            {{ stat.stat.name.replace("-", " ") + ": " + stat.base_stat }}
+          <li v-for="(stat, index) in pokemonDetails.stats" :key="index">
+            {{ translateStat(stat.stat.name) }}: {{ stat.base_stat }}
           </li>
         </ul>
       </section>
-      <!-- Stats - ADVANCED -->
     </section>
-    <!-- Evolutions -->
+
     <section class="evolutions">
       <h2>Evoluções</h2>
       <ul>
-        <li v-for="(evolution, index) in evolutions" :key="index">
-          <a :href="evolution.url">
-            <img :src="evolution.link_img" :alt="evolution.name" />
-          </a>
+        <li
+          v-for="(evolution, index) in pokemonDetails.evolutions"
+          :key="index"
+        >
+          <router-link :to="evolution.detailsUrl">
+            <img
+              :src="evolution.sprites?.front_default"
+              :alt="evolution.name"
+            />
+          </router-link>
         </li>
       </ul>
     </section>
   </div>
 </template>
+
+<script lang="ts">
+import { RouterLink } from "vue-router";
+
+import Alert from "../components/Alert/index.vue";
+
+import { pokeDataStore } from "../stores/pokeDataStore";
+import { PokemonDetails } from "../types/pages";
+import { translateStat } from "../utils/translateStat";
+
+const store = pokeDataStore();
+
+export default {
+  name: "Details",
+  components: { Alert, RouterLink },
+  data() {
+    return {
+      showIt: false,
+      showMoreInfo: false,
+      alert_message: "",
+      pokemonDetails: {} as PokemonDetails,
+    };
+  },
+  created() {
+    this.gettingData(this.$route.params.name.toString().toLowerCase());
+
+    this.$watch(
+      () => this.$route.params,
+      (toParams) => {
+        this.gettingData(toParams.name.toString().toLowerCase());
+      }
+    );
+  },
+  methods: {
+    // Passa referência da util pro método
+    translateStat,
+    async gettingData(name: string) {
+      const data = await store.getPokemonDetails(name);
+
+      if ("error" in data) {
+        this.alert_message = data.message;
+        return;
+      }
+
+      this.pokemonDetails = data;
+      this.showIt = true;
+    },
+    toggleMoreInfo() {
+      this.showMoreInfo = !this.showMoreInfo;
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .alert_component {
@@ -253,9 +176,6 @@ export default {
         gap: 16px;
 
         list-style: none;
-        li {
-          text-transform: capitalize;
-        }
       }
     }
   }

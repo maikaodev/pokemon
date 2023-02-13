@@ -1,7 +1,7 @@
 <template>
   <nav>
     <ul>
-      <li><a href="http://github.com/maikaodev" target="_blank">Github</a></li>
+      <li><a href="http://github.com/maikaodev" target="_blank">GitHub</a></li>
       <li>
         <a href="https://www.linkedin.com/in/maikaodev/" target="_blank"
           >LinkedIn</a
