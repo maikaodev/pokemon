@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 // TS
-import { CardProps, StatsProps } from "../types/pages";
+import { StatsProps } from "../types/pages";
 
 export const pokeDataStore = defineStore("pokeData", {
   state() {
@@ -9,7 +9,6 @@ export const pokeDataStore = defineStore("pokeData", {
       url_default: "https://pokeapi.co/api/v2/pokemon/",
       url_species: "https://pokeapi.co/api/v2/pokemon-species/", //https://pokeapi.co/api/v2/pokemon-species/pikachu/
       stats: [] as StatsProps[],
-      card: {} as CardProps,
     };
   },
 
