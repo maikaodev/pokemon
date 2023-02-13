@@ -1,5 +1,4 @@
 export const fetchData = async (url: string) => {
-  let data;
   try {
     const response = await fetch(url, {
       headers: {
@@ -13,16 +12,16 @@ export const fetchData = async (url: string) => {
       return response.json();
     }
     if (response.status === 404) {
-      return (data = {
+      return {
         error: true,
         message: "Desculpe, nada foi encontrado...",
-      });
+      };
     }
 
     throw new Error("Desculpe, ocorreu um erro inesperado!");
   } catch (error: any) {
     if (error) {
-      return (data = { error: true, message: error.message });
+      return { error: true, message: error.message };
     }
   }
 };
