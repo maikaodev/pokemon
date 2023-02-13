@@ -23,18 +23,23 @@ export default {
       name: this.$route.params.name.toString(),
       url_img: "",
       stats,
-      first_evolution: {
-        name: "",
-        url: "",
-      },
-      middle_evolution: {
-        name: "",
-        url: "",
-      },
-      last_evolution: {
-        name: "",
-        url: "",
-      },
+      evolutions: [
+        {
+          name: "",
+          url: "",
+          link_img: "",
+        },
+        {
+          name: "",
+          url: "",
+          link_img: "",
+        },
+        {
+          name: "",
+          url: "",
+          link_img: "",
+        },
+      ],
       weight: 0,
       height: 0,
       base_experience: 0,
@@ -79,20 +84,31 @@ export default {
 
       if (chain.species?.name) {
         const name = chain.species.name;
-        this.first_evolution.name = name;
-        this.first_evolution.url = `/detalhes/${name}`;
+        this.evolutions[0].name = name;
+        this.evolutions[0].url = `/detalhes/${name}`;
       }
       if (chain.evolves_to) {
         const name = chain.evolves_to[0].species.name;
-        this.middle_evolution.name = name;
-        this.middle_evolution.url = `/detalhes/${name}`;
+        this.evolutions[1].name = name;
+        this.evolutions[1].url = `/detalhes/${name}`;
       }
       if (chain.evolves_to[0].evolves_to) {
         const name = chain.evolves_to[0].evolves_to[0].species.name;
-        this.last_evolution.name = name;
-        this.last_evolution.url = `/detalhes/${name}`;
+        this.evolutions[2].name = name;
+        this.evolutions[2].url = `/detalhes/${name}`;
       }
       this.showIt = true;
+
+      this.setUrlImg();
+    },
+    async setUrlImg() {
+      this.evolutions.forEach(async (evolution) => {
+        const data: DataProps = await fetchData(
+          `${store.url_default}${evolution.name}`
+        );
+
+        evolution.link_img = data.sprites.front_default;
+      });
     },
   },
   computed: {
@@ -100,13 +116,13 @@ export default {
       return capitilized(this.name);
     },
     firstEvolution(): string {
-      return capitilized(this.first_evolution.name);
+      return capitilized(this.evolutions[0].name);
     },
     middleEvolution(): string {
-      return capitilized(this.middle_evolution.name);
+      return capitilized(this.evolutions[1].name);
     },
     lastEvolution(): string {
-      return capitilized(this.last_evolution.name);
+      return capitilized(this.evolutions[2].name);
     },
   },
 };
@@ -142,16 +158,12 @@ export default {
     </section>
     <!-- Evolutions -->
     <section class="evolutions">
-      <h2>Evoluções:</h2>
+      <h2>Evoluções</h2>
       <ul>
-        <li>
-          <a :href="first_evolution.url">{{ firstEvolution }}</a>
-        </li>
-        <li>
-          <a :href="middle_evolution.url">{{ middleEvolution }}</a>
-        </li>
-        <li>
-          <a :href="last_evolution.url">{{ lastEvolution }}</a>
+        <li v-for="(evolution, index) in evolutions" :key="index">
+          <a :href="evolution.url">
+            <img :src="evolution.link_img" :alt="evolution.name" />
+          </a>
         </li>
       </ul>
     </section>
@@ -172,6 +184,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-around;
+
     img {
       width: 150px;
       height: 150px;
@@ -185,6 +198,20 @@ export default {
         gap: 16px;
 
         list-style: none;
+      }
+    }
+  }
+  .evolutions {
+    text-align: center;
+    ul {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      li {
+        transition: all 0.75s;
+        &:hover {
+          transform: scale(1.5);
+        }
       }
     }
   }
