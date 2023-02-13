@@ -30,16 +30,13 @@ body #app {
 }
 header {
   grid-area: header;
-  height: 10vh;
   width: 100%;
 }
 main {
   grid-area: main;
-  height: 75vh;
   width: 100%;
 }
 footer {
   grid-area: footer;
-  height: 10vh;
   width: 100%;
 }
