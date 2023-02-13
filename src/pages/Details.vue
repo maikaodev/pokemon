@@ -137,8 +137,8 @@ export default {
 };
 </script>
 <template>
-  <div class="alert_component">
-    <Alert v-show="alert_message" :message="alert_message" />
+  <div v-show="alert_message" class="alert_component">
+    <Alert :message="alert_message" />
     <router-Link to="/">Página Inicial</router-Link>
   </div>
   <div v-show="showIt" class="container">
