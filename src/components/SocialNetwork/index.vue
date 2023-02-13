@@ -8,8 +8,7 @@
         >
       </li>
       <li>
-        <a href="mailto:maikao.dev@gmail.com" target="_blank"></a>
-        Gmail
+        <a href="mailto:maikao.dev@gmail.com" target="_blank"> Gmail </a>
       </li>
     </ul>
   </nav>
