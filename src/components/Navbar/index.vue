@@ -1,7 +1,12 @@
 <template>
   <nav>
     <router-link :to="{ name: 'home' }">
-      <img src="pokebola.png" alt="Pokebola" height="50" width="50" />
+      <img
+        src="../../assets/pokebola.png"
+        alt="Pokebola"
+        height="50"
+        width="50"
+      />
     </router-link>
 
     <ul>
