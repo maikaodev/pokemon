@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header">
       <h1>Pokémundo</h1>
-      <p>Aqui você encontra tudos sobre o seu pokémon preferido</p>
+      <p>Aqui você encontra tudo sobre o seu Pokémon preferido</p>
     </div>
 
     <section class="content">
