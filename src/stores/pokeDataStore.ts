@@ -9,6 +9,8 @@ export const pokeDataStore = defineStore("pokeData", {
       url_default: "https://pokeapi.co/api/v2/pokemon/",
       url_species: "https://pokeapi.co/api/v2/pokemon-species/", //https://pokeapi.co/api/v2/pokemon-species/pikachu/
       stats: [] as StatsProps[],
+      weight: 0,
+      height: 0,
     };
   },
 
