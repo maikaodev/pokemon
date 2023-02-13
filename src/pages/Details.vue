@@ -102,18 +102,23 @@ export default {
     };
   },
   created() {
-    this.gettingData();
+    this.gettingData(this.$route.params.name.toString().toLowerCase());
+
+    this.$watch(
+      () => this.$route.params,
+      (toParams) => {
+        this.gettingData(toParams.name.toString().toLowerCase());
+      }
+    );
   },
 
   methods: {
-    async gettingData() {
-      const name = this.$route.params.name.toString().toLocaleLowerCase();
-
+    async gettingData(name: string) {
       const defaultData: DataProps = await fetchData(
-        `${store.url_default}${store.pokename || name}`
+        `${store.url_default}${name}`
       );
       const speciesData: SpeciesProps = await fetchData(
-        `${store.url_species}${store.pokename || name}`
+        `${store.url_species}${name}`
       );
 
       if (defaultData.error || speciesData.error) {
