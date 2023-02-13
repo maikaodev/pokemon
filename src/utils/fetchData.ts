@@ -13,7 +13,10 @@ export const fetchData = async (url: string) => {
       return response.json();
     }
     if (response.status === 404) {
-      return (data = { error: true, message: "Nada foi encontrado..." });
+      return (data = {
+        error: true,
+        message: "Desculpe, nada foi encontrado...",
+      });
     }
 
     throw new Error("Desculpe, ocorreu um erro inesperado!");
