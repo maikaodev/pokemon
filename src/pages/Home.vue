@@ -89,8 +89,13 @@ export default {
     },
   },
   computed: {
-    link() {
+    link(): string {
       return `/detalhes/${this.name}`;
+    },
+  },
+  watch: {
+    pokeName(value) {
+      if (value) return (this.alert_message = "");
     },
   },
 };
