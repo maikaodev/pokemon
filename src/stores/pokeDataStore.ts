@@ -13,11 +13,12 @@ import { convertToKg } from "../utils/convertToKg";
 
 import { fetchData } from "../utils/fetchData";
 
+const url_default = "https://pokeapi.co/api/v2/pokemon/";
+const url_species = "https://pokeapi.co/api/v2/pokemon-species/";
+
 export const pokeDataStore = defineStore("pokeData", {
   state() {
     return {
-      url_default: "https://pokeapi.co/api/v2/pokemon/",
-      url_species: "https://pokeapi.co/api/v2/pokemon-species/",
       pokemons: {} as Record<string, PokemonProps>,
     };
   },
@@ -31,7 +32,7 @@ export const pokeDataStore = defineStore("pokeData", {
       }
 
       const pokemonData: PokemonProps | ErrorProps = await fetchData(
-        this.url_default + name
+        url_default + name
       );
 
       if ("error" in pokemonData) return pokemonData;
@@ -53,7 +54,7 @@ export const pokeDataStore = defineStore("pokeData", {
       const name = nameParam.toString().toLowerCase();
       const pokemonData = await this.getPokemon(name);
       const speciesData: SpeciesProps | ErrorProps = await fetchData(
-        `${this.url_species}${name}`
+        `${url_species}${name}`
       );
 
       if ("error" in speciesData) return speciesData;
