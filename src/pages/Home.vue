@@ -67,7 +67,7 @@ export default {
 
       if (!this.pokeName) return;
 
-      store.setPokename(this.pokeName);
+      store.setPokename(this.pokeName.toLocaleLowerCase());
 
       const dataDefault: DataProps = await fetchData(
         `${store.url_default + store.pokename}`
