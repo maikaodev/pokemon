@@ -6,7 +6,7 @@
     </div>
 
     <section class="content">
-      <form @submit.prevent>
+      <form @submit.prevent="findPokemon">
         <input
           v-model="pokeName"
           type="text"
@@ -14,7 +14,7 @@
           aria-label="Encontre seu pokémon"
           required
         />
-        <button type="submit" @click="findPokemon">Buscar</button>
+        <button type="submit">Buscar</button>
       </form>
     </section>
 
