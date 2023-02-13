@@ -16,3 +16,7 @@ export type DataProps = {
   stats: StatsProps[];
   sprites: { front_default: string };
 };
+
+export type TypeProps = {
+  type: { name: string };
+};
