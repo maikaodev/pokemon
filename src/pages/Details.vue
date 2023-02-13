@@ -1,3 +1,51 @@
+<template>
+  <div v-show="alert_message" class="alert_component">
+    <Alert :message="alert_message" />
+    <router-Link to="/">Página Inicial</router-Link>
+  </div>
+
+  <div v-show="showIt" class="container">
+    <h1>{{ nameCapitalized }}</h1>
+    <img :src="url_img" :alt="name" @click="showOrHidden" />
+    <section class="content">
+      <!-- IMG -->
+      <!-- IMG -->
+
+      <!-- Stats -->
+      <section class="stats">
+        <ul>
+          <li>Peso: {{ weight }} kg</li>
+          <li>Altura: {{ height }} cm</li>
+          <li>Experiência: {{ base_experience }}</li>
+        </ul>
+      </section>
+      <!-- Stats -->
+
+      <!-- Stats - ADVANCED -->
+
+      <section v-show="showMenu" class="stats_advanced">
+        <ul>
+          <li v-for="(stat, index) in stats" :key="index">
+            {{ stat.stat.name.replace("-", " ") + ": " + stat.base_stat }}
+          </li>
+        </ul>
+      </section>
+      <!-- Stats - ADVANCED -->
+    </section>
+    <!-- Evolutions -->
+    <section class="evolutions">
+      <h2>Evoluções</h2>
+      <ul>
+        <li v-for="(evolution, index) in evolutions" :key="index">
+          <router-link :to="evolution.url">
+            <img :src="evolution.link_img" :alt="evolution.name" />
+          </router-link>
+        </li>
+      </ul>
+    </section>
+  </div>
+</template>
+
 <script lang="ts">
 import Alert from "../components/Alert/index.vue";
 
@@ -130,53 +178,6 @@ export default {
   },
 };
 </script>
-<template>
-  <div v-show="alert_message" class="alert_component">
-    <Alert :message="alert_message" />
-    <router-Link to="/">Página Inicial</router-Link>
-  </div>
-
-  <div v-show="showIt" class="container">
-    <h1>{{ nameCapitalized }}</h1>
-    <img :src="url_img" :alt="name" @click="showOrHidden" />
-    <section class="content">
-      <!-- IMG -->
-      <!-- IMG -->
-
-      <!-- Stats -->
-      <section class="stats">
-        <ul>
-          <li>Peso: {{ weight }} kg</li>
-          <li>Altura: {{ height }} cm</li>
-          <li>Experiência: {{ base_experience }}</li>
-        </ul>
-      </section>
-      <!-- Stats -->
-
-      <!-- Stats - ADVANCED -->
-
-      <section v-show="showMenu" class="stats_advanced">
-        <ul>
-          <li v-for="(stat, index) in stats" :key="index">
-            {{ stat.stat.name.replace("-", " ") + ": " + stat.base_stat }}
-          </li>
-        </ul>
-      </section>
-      <!-- Stats - ADVANCED -->
-    </section>
-    <!-- Evolutions -->
-    <section class="evolutions">
-      <h2>Evoluções</h2>
-      <ul>
-        <li v-for="(evolution, index) in evolutions" :key="index">
-          <router-link :to="evolution.url">
-            <img :src="evolution.link_img" :alt="evolution.name" />
-          </router-link>
-        </li>
-      </ul>
-    </section>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .alert_component {

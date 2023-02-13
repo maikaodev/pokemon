@@ -4,6 +4,7 @@
     <router-link to="/">Voltar para página inicial</router-link>
   </div>
 </template>
+
 <script>
 import { RouterLink } from "vue-router";
 
@@ -11,6 +12,7 @@ export default {
   name: "NotFound",
 };
 </script>
+
 <style lang="scss" scoped>
 .container {
   height: 80%;
