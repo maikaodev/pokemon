@@ -4,19 +4,22 @@ export type StatsProps = {
   stat: { name: string };
 };
 
-export type DataProps = {
+export type ErrorProps = {
   error: boolean;
   message: string;
-  name: string;
-  height: number;
-  weight: number;
-  base_experience: number;
-  types: [{ type: { name: string } }];
-  id: number;
-  stats: StatsProps[];
-  sprites: { front_default: string };
 };
 
 export type TypeProps = {
   type: { name: string };
+};
+
+export type PokemonProps = {
+  name: string;
+  stats_advanced: StatsProps[];
+  stats_base: { weight: number; height: number; base_experience: number };
+  sprites: { front_default: string };
+  types: TypeProps[];
+  species: {
+    evolution_chain: { url: string };
+  };
 };
