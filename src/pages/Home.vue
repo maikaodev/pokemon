@@ -22,15 +22,13 @@
 
 <script lang="ts">
 // Functions - utils
-import { fetchData } from "../utils/fetchData";
 
 // Store
-import { SpeciesOfPokemon } from "../stores/SpeciesOfPokemon";
+import { pokeDataStore } from "../stores/pokeDataStore";
 
-const storeSpeciesPokemon = SpeciesOfPokemon();
+const store = pokeDataStore();
 
 // Ts
-import { DataProps, StatsProps } from "../types/pages";
 
 export default {
   name: "Home",
@@ -40,29 +38,14 @@ export default {
     };
   },
   methods: {
-    async findPokemon() {
+    findPokemon() {
       //
 
       if (!this.pokeName) return;
 
-      const data: DataProps = await fetchData(
-        `https://pokeapi.co/api/v2/pokemon/${this.pokeName.toLowerCase()}`
-      );
+      store.setPokename(this.pokeName);
 
-      if (data.error) {
-        return alert(data.message);
-      }
-
-      const stats: StatsProps[] = data.stats;
-      const id: number = data.id;
-
-      this.updatingUrl(id, stats);
-
-      //
       this.$router.push(`/detalhes/${this.pokeName}`);
-    },
-    updatingUrl(id: number, stats: StatsProps[]) {
-      storeSpeciesPokemon.updatingStats(id, stats);
     },
   },
 };
