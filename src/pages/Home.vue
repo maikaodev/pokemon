@@ -20,7 +20,9 @@
 
     <section v-show="showCard" class="card">
       <img :src="url_img" :alt="name" />
-      <span>{{ name }}</span>
+      <router-link :to="link">
+        <span>{{ name }}</span>
+      </router-link>
       <ul>
         <li v-for="(type, index) in types" :key="index" :class="type.type.name">
           {{ type.type.name }}
@@ -32,7 +34,6 @@
 
 <script lang="ts">
 // Functions - utils
-import { capitilized } from "../utils/capitilized";
 import { fetchData } from "../utils/fetchData";
 
 // Store
@@ -76,11 +77,8 @@ export default {
     },
   },
   computed: {
-    Pokaname() {
-      return capitilized(this.name);
-    },
-    TypeName() {
-      return capitilized(this.types[0].type.name);
+    link() {
+      return `/detalhes/${this.name}`;
     },
   },
 };
@@ -158,13 +156,17 @@ export default {
         transform: translateY(-20px);
       }
     }
-    span {
-      display: block;
+    a {
+      span {
+        display: block;
+        text-transform: capitalize;
 
-      font-weight: 700;
-      font-size: 24px;
-      cursor: pointer;
+        font-weight: 700;
+        font-size: 24px;
+        cursor: pointer;
+      }
     }
+
     ul {
       margin: 8px 0;
       list-style: none;
@@ -176,6 +178,8 @@ export default {
         margin: auto;
         padding: 4px 8px;
         font-size: 18px;
+
+        text-transform: capitalize;
 
         color: black;
       }
