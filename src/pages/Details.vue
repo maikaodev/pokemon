@@ -142,9 +142,9 @@ export default {
       <!-- Stats -->
       <section class="stats">
         <ul>
-          <li>Weight: {{ weight }}</li>
-          <li>Height: {{ height }}</li>
-          <li>Base experience: {{ base_experience }}</li>
+          <li>Peso: {{ weight }}</li>
+          <li>Altura: {{ height }}</li>
+          <li>Experiência: {{ base_experience }}</li>
         </ul>
       </section>
       <!-- Stats -->
@@ -154,7 +154,7 @@ export default {
       <section v-show="showMenu" class="stats_advanced">
         <ul>
           <li v-for="(stat, index) in stats" :key="index">
-            {{ stat.stat.name + ": " + stat.base_stat }}
+            {{ stat.stat.name.replace("-", " ") + ": " + stat.base_stat }}
           </li>
         </ul>
       </section>
@@ -189,6 +189,13 @@ export default {
   img {
     width: 150px;
     height: 150px;
+    cursor: pointer;
+
+    transition: all 0.75s;
+
+    &:hover {
+      transform: translateY(-20px);
+    }
   }
   .content {
     height: 100%;
@@ -210,6 +217,9 @@ export default {
         gap: 16px;
 
         list-style: none;
+        li {
+          text-transform: capitalize;
+        }
       }
     }
   }
@@ -223,7 +233,7 @@ export default {
       li {
         transition: all 0.75s;
         &:hover {
-          transform: scale(1.5);
+          transform: translateY(-15px);
         }
       }
     }
