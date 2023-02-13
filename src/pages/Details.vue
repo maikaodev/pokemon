@@ -1,22 +1,26 @@
 <script lang="ts">
-// Router
-import { useRouter } from "vue-router";
-const router = useRouter();
+// Component
+import Alert from "../components/Alert/index.vue";
 // Functions - utils
 import { fetchData } from "../utils/fetchData";
-
 // Store
 import { pokeDataStore } from "../stores/pokeDataStore";
 
 const store = pokeDataStore();
 
 // TS
+import { RouterLink } from "vue-router";
 import { DataProps, StatsProps } from "../types/pages";
 import { capitilized } from "../utils/capitilized";
+type SpeciesProps = DataProps & {
+  evolution_chain: {
+    url: string;
+  };
+};
 
 export default {
   name: "Details",
-
+  components: { Alert, RouterLink },
   data() {
     const stats: StatsProps[] = [];
     return {
@@ -46,6 +50,7 @@ export default {
       type: [],
       showIt: false,
       showMenu: false,
+      alert_message: "",
     };
   },
   created() {
@@ -61,14 +66,14 @@ export default {
       const defaultData: DataProps = await fetchData(
         `${store.url_default}${name.toLowerCase()}`
       );
-      const speciesData = await fetchData(
+      const speciesData: SpeciesProps = await fetchData(
         `${store.url_species}${name.toLowerCase()}`
       );
 
       // Error
 
-      if (defaultData.error) {
-        return alert(defaultData.message);
+      if (defaultData.error || speciesData.error) {
+        return (this.alert_message = defaultData.message);
       }
 
       // States
@@ -132,6 +137,10 @@ export default {
 };
 </script>
 <template>
+  <div class="alert_component">
+    <Alert v-show="alert_message" :message="alert_message" />
+    <router-Link to="/">Página Inicial</router-Link>
+  </div>
   <div v-show="showIt" class="container">
     <h1>Nome: {{ nameCapitalized }}</h1>
     <img :src="url_img" :alt="name" @click="showOrHidden" />
@@ -175,6 +184,33 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.alert_component {
+  height: 80%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  a {
+    background: none;
+    color: white;
+
+    padding: 16px;
+
+    font-weight: 700;
+
+    border: 1px solid red;
+
+    cursor: pointer;
+
+    transition-property: background-color;
+    transition-duration: 0.75s;
+
+    &:hover {
+      background-color: red;
+    }
+  }
+}
 .container {
   height: 100%;
   display: flex;
