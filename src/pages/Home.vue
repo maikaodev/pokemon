@@ -21,10 +21,14 @@
     <Alert v-if="alert_message" :message="alert_message" />
 
     <router-link :to="link" v-show="showCard" class="card">
-      <img :src="url_img" :alt="name" />
-      <span>{{ name }}</span>
+      <img :src="pokeData.sprites?.front_default" :alt="pokeData.name" />
+      <span>{{ pokeData.name }}</span>
       <ul>
-        <li v-for="(type, index) in types" :key="index" :class="type.type.name">
+        <li
+          v-for="(type, index) in pokeData.types"
+          :key="index"
+          :class="type.type.name"
+        >
           {{ type.type.name }}
         </li>
       </ul>
@@ -33,67 +37,51 @@
 </template>
 
 <script lang="ts">
-// Components
 import Alert from "../components/Alert/index.vue";
-// Functions - utils
-import { fetchData } from "../utils/fetchData";
 
-// Store
 import { pokeDataStore } from "../stores/pokeDataStore";
+import { PokemonProps } from "../types/pages";
 
 const store = pokeDataStore();
-
-// Ts
-import { DataProps, TypeProps } from "../types/pages";
 
 export default {
   name: "Home",
   components: { Alert },
   data() {
     return {
+      pokeData: {} as PokemonProps,
       pokeName: "",
-      name: "",
-      url_img: "",
-      types: [] as TypeProps[],
       showCard: false,
       alert_message: "",
     };
   },
   methods: {
     async findPokemon() {
-      //
-
       if (!this.pokeName) return;
 
-      store.setPokename(this.pokeName.toLocaleLowerCase());
+      const data = await store.findOrGetPokemon(this.pokeName);
 
-      const dataDefault: DataProps = await fetchData(
-        `${store.url_default + store.pokename}`
-      );
-
-      if (dataDefault.error) {
+      if ("error" in data) {
         this.pokeName = "";
-
-        return (this.alert_message = dataDefault.message);
+        this.showCard = false;
+        this.pokeData = {} as PokemonProps;
+        this.alert_message = data.message;
+        return;
       }
 
-      this.name = dataDefault.name;
-      this.url_img = dataDefault.sprites.front_default;
-      this.types = dataDefault.types;
-
-      store.setStats(dataDefault.stats);
+      this.pokeData = data;
       this.showCard = true;
       this.pokeName = "";
     },
   },
   computed: {
     link(): string {
-      return `/detalhes/${this.name}`;
+      return `/detalhes/${this.pokeData.name}`;
     },
   },
   watch: {
     pokeName(value) {
-      if (value) return (this.alert_message = "");
+      if (value) this.alert_message = "";
     },
   },
 };
