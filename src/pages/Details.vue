@@ -10,6 +10,7 @@
     <img
       :src="pokemonDetails.sprites?.front_default"
       :alt="pokemonDetails.name"
+      @click="toggleMoreInfo"
     />
 
     <section class="content">
@@ -19,10 +20,6 @@
           <li>Altura: {{ pokemonDetails.height }} cm</li>
           <li>Experiência: {{ pokemonDetails.base_experience }}</li>
         </ul>
-
-        <button @click="toggleMoreInfo">
-          Ver {{ showMoreInfo ? "menos" : "mais" }}
-        </button>
       </section>
 
       <section v-show="showMoreInfo" class="stats_advanced">
@@ -139,7 +136,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
   h1 {
     text-align: center;
   }

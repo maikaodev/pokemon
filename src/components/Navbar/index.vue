@@ -28,7 +28,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 nav {
-  height: 100%;
+  height: 10vh;
+
   display: flex;
   align-items: center;
 
