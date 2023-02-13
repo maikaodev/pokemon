@@ -1,17 +1,17 @@
 <script lang="ts">
-// Component
 import Alert from "../components/Alert/index.vue";
-// Functions - utils
+
+import { capitilized } from "../utils/capitilized";
+import { convertToCm } from "../utils/convertToCm";
+import { convertToKg } from "../utils/convertToKg";
 import { fetchData } from "../utils/fetchData";
-// Store
+
 import { pokeDataStore } from "../stores/pokeDataStore";
 
 const store = pokeDataStore();
 
-// TS
 import { RouterLink } from "vue-router";
 import { DataProps, StatsProps } from "../types/pages";
-import { capitilized } from "../utils/capitilized";
 type SpeciesProps = DataProps & {
   evolution_chain: {
     url: string;
@@ -59,29 +59,23 @@ export default {
 
   methods: {
     async gettingData() {
-      //
-      const name = this.$route.params.name.toString();
+      const name = this.$route.params.name.toString().toLocaleLowerCase();
 
-      // Datas
       const defaultData: DataProps = await fetchData(
-        `${store.url_default}${name.toLowerCase()}`
+        `${store.url_default}${store.pokename || name}`
       );
       const speciesData: SpeciesProps = await fetchData(
-        `${store.url_species}${name.toLowerCase()}`
+        `${store.url_species}${store.pokename || name}`
       );
-
-      // Error
 
       if (defaultData.error || speciesData.error) {
         return (this.alert_message = defaultData.message);
       }
 
-      // States
-
       this.url_img = defaultData.sprites.front_default;
-      this.stats = defaultData.stats;
-      this.weight = defaultData.weight;
-      this.height = defaultData.height;
+      this.stats = store.stats || defaultData.stats;
+      this.weight = convertToKg(store.weight || defaultData.weight);
+      this.height = convertToCm(store.height || defaultData.height);
       this.base_experience = defaultData.base_experience;
 
       const dataEvolution = await fetchData(speciesData.evolution_chain.url);
@@ -141,8 +135,9 @@ export default {
     <Alert :message="alert_message" />
     <router-Link to="/">Página Inicial</router-Link>
   </div>
+
   <div v-show="showIt" class="container">
-    <h1>Nome: {{ nameCapitalized }}</h1>
+    <h1>{{ nameCapitalized }}</h1>
     <img :src="url_img" :alt="name" @click="showOrHidden" />
     <section class="content">
       <!-- IMG -->
@@ -151,8 +146,8 @@ export default {
       <!-- Stats -->
       <section class="stats">
         <ul>
-          <li>Peso: {{ weight }}</li>
-          <li>Altura: {{ height }}</li>
+          <li>Peso: {{ weight }} kg</li>
+          <li>Altura: {{ height }} cm</li>
           <li>Experiência: {{ base_experience }}</li>
         </ul>
       </section>
@@ -174,9 +169,9 @@ export default {
       <h2>Evoluções</h2>
       <ul>
         <li v-for="(evolution, index) in evolutions" :key="index">
-          <a :href="evolution.url">
+          <router-link :to="evolution.url">
             <img :src="evolution.link_img" :alt="evolution.name" />
-          </a>
+          </router-link>
         </li>
       </ul>
     </section>
@@ -253,9 +248,6 @@ export default {
         gap: 16px;
 
         list-style: none;
-        li {
-          text-transform: capitalize;
-        }
       }
     }
   }
