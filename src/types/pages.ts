@@ -15,11 +15,21 @@ export type TypeProps = {
 
 export type PokemonProps = {
   name: string;
-  stats_advanced: StatsProps[];
-  stats_base: { weight: number; height: number; base_experience: number };
+  detailsUrl: string;
+  height: number;
+  weight: number;
+  base_experience: number;
+  stats: StatsProps[];
   sprites: { front_default: string };
   types: TypeProps[];
-  species: {
-    evolution_chain: { url: string };
+};
+
+export type SpeciesProps = {
+  evolution_chain: {
+    url: string;
   };
+};
+
+export type PokemonDetails = PokemonProps & {
+  evolutions: PokemonProps[];
 };
