@@ -40,7 +40,7 @@ export const pokeDataStore = defineStore("pokeData", {
       this.pokemons[name] = {
         ...pokemonData,
         height: convertToCm(pokemonData.height),
-        weight: convertToKg(pokemonData.weight),
+        weight: Number(convertToKg(pokemonData.weight)),
         name: capitalized(pokemonData.name),
         detailsUrl: `/detalhes/${pokemonData.name}`,
       };
