@@ -20,7 +20,11 @@
 
     <Alert v-if="alert_message" :message="alert_message" />
 
-    <router-link :to="link" v-show="showCard" class="card">
+    <router-link
+      v-show="showCard"
+      :to="pokeData.detailsUrl || '/'"
+      class="card"
+    >
       <img :src="pokeData.sprites?.front_default" :alt="pokeData.name" />
       <span>{{ pokeData.name }}</span>
       <ul>
@@ -59,7 +63,7 @@ export default {
     async findPokemon() {
       if (!this.pokeName) return;
 
-      const data = await store.findOrGetPokemon(this.pokeName);
+      const data = await store.getPokemon(this.pokeName);
 
       if ("error" in data) {
         this.pokeName = "";
@@ -72,11 +76,6 @@ export default {
       this.pokeData = data;
       this.showCard = true;
       this.pokeName = "";
-    },
-  },
-  computed: {
-    link(): string {
-      return `/detalhes/${this.pokeData.name}`;
     },
   },
   watch: {
