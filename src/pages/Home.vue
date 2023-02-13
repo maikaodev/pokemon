@@ -20,17 +20,15 @@
 
     <Alert v-if="alert_message" :message="alert_message" />
 
-    <section v-show="showCard" class="card">
+    <router-link :to="link" v-show="showCard" class="card">
       <img :src="url_img" :alt="name" />
-      <router-link :to="link">
-        <span>{{ name }}</span>
-      </router-link>
+      <span>{{ name }}</span>
       <ul>
         <li v-for="(type, index) in types" :key="index" :class="type.type.name">
           {{ type.type.name }}
         </li>
       </ul>
-    </section>
+    </router-link>
   </div>
 </template>
 
@@ -173,15 +171,13 @@ export default {
         transform: translateY(-20px);
       }
     }
-    a {
-      span {
-        display: block;
-        text-transform: capitalize;
+    span {
+      display: block;
+      text-transform: capitalize;
 
-        font-weight: 700;
-        font-size: 24px;
-        cursor: pointer;
-      }
+      font-weight: 700;
+      font-size: 24px;
+      cursor: pointer;
     }
 
     ul {
