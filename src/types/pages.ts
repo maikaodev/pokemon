@@ -1,5 +1,5 @@
 export type StatsProps = {
-  base_state: number;
+  base_stat: number;
   effort: number;
   stat: { name: string };
 };
@@ -14,4 +14,5 @@ export type DataProps = {
   types: [{ type: { name: string } }];
   id: number;
   stats: StatsProps[];
+  sprites: { front_default: string };
 };
