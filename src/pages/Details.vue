@@ -96,8 +96,6 @@ export default {
         return;
       }
 
-      console.log(data);
-
       this.pokemonDetails = data;
       this.showIt = true;
     },
