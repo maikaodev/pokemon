@@ -45,6 +45,7 @@ export default {
       base_experience: 0,
       type: [],
       showIt: false,
+      showMenu: false,
     };
   },
   created() {
@@ -110,6 +111,9 @@ export default {
         evolution.link_img = data.sprites.front_default;
       });
     },
+    showOrHidden() {
+      this.showMenu = !this.showMenu;
+    },
   },
   computed: {
     nameCapitalized() {
@@ -130,7 +134,11 @@ export default {
 <template>
   <div v-show="showIt" class="container">
     <h1>Nome: {{ nameCapitalized }}</h1>
+    <img :src="url_img" :alt="name" @click="showOrHidden" />
     <section class="content">
+      <!-- IMG -->
+      <!-- IMG -->
+
       <!-- Stats -->
       <section class="stats">
         <ul>
@@ -141,13 +149,9 @@ export default {
       </section>
       <!-- Stats -->
 
-      <!-- IMG -->
-      <img :src="url_img" :alt="name" />
-      <!-- IMG -->
-
       <!-- Stats - ADVANCED -->
 
-      <section class="stats_advanced">
+      <section v-show="showMenu" class="stats_advanced">
         <ul>
           <li v-for="(stat, index) in stats" :key="index">
             {{ stat.stat.name + ": " + stat.base_stat }}
@@ -172,28 +176,36 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  height: 80%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  overflow-y: scroll;
+  h1 {
+    text-align: center;
+  }
   gap: 32px;
+
+  img {
+    width: 150px;
+    height: 150px;
+  }
   .content {
     height: 100%;
     width: 100%;
     display: flex;
     align-items: center;
+    flex-direction: column;
+
     justify-content: space-around;
 
-    img {
-      width: 150px;
-      height: 150px;
-    }
     .stats,
     .stats_advanced {
       ul {
         display: flex;
         flex-direction: column;
+
+        margin-top: 16px;
 
         gap: 16px;
 
@@ -205,6 +217,7 @@ export default {
     text-align: center;
     ul {
       display: flex;
+      flex-direction: column;
       align-items: center;
       list-style: none;
       li {
@@ -212,6 +225,20 @@ export default {
         &:hover {
           transform: scale(1.5);
         }
+      }
+    }
+  }
+}
+$breakpoint-tablet: 768px;
+
+@media (min-width: $breakpoint-tablet) {
+  .container {
+    .content {
+      flex-direction: row;
+    }
+    .evolutions {
+      ul {
+        flex-direction: row;
       }
     }
   }
