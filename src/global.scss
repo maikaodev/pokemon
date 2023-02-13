@@ -19,24 +19,16 @@ a {
 }
 
 body #app {
-  display: grid;
-  grid-template-areas:
-    "header"
-    "main"
-    "footer";
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
   gap: 16px;
 
   font-family: "Inter", sans-serif;
 }
-header {
-  grid-area: header;
-  width: 100%;
-}
+
 main {
-  grid-area: main;
-  width: 100%;
-}
-footer {
-  grid-area: footer;
-  width: 100%;
+  flex: 1;
 }
