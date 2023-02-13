@@ -1,3 +1,3 @@
 export const convertToKg = (number: number) => {
-  return number / 10 / 10;
+  return (number / 10).toFixed(2);
 };
