@@ -73,10 +73,10 @@ export default {
         return;
       }
 
-      this.showCard = false;
       setTimeout(() => {
         this.showCard = true;
       }, 1);
+      this.showCard = false;
       this.pokeData = data;
       this.pokeName = "";
     },
