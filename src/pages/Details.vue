@@ -104,6 +104,69 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes shake-horizontal {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateX(-10px);
+  }
+  20%,
+  40%,
+  60% {
+    transform: translateX(10px);
+  }
+  80% {
+    transform: translateX(8px);
+  }
+  90% {
+    transform: translateX(-8px);
+  }
+}
+@keyframes tracking-in-expand {
+  0% {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes scale-in-hor-center {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+@keyframes slide-left-top {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(-120px) translateX(-150px);
+  }
+}
+
+@keyframes slide-right-top {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  100% {
+    transform: translateY(-120px) translateX(75px);
+  }
+}
+
 .alert_component {
   height: 80%;
 
@@ -112,6 +175,8 @@ export default {
   align-items: center;
   justify-content: center;
   a {
+    animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955)
+      both;
     background: none;
     color: white;
 
@@ -133,11 +198,14 @@ export default {
 }
 .container {
   height: 100%;
+  width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: auto;
   h1 {
     text-align: center;
+    animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) both;
   }
   gap: 32px;
 
@@ -154,7 +222,6 @@ export default {
   }
   .content {
     height: 100%;
-    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -164,6 +231,7 @@ export default {
     .stats,
     .stats_advanced {
       ul {
+        width: 200px;
         display: flex;
         flex-direction: column;
 
@@ -182,6 +250,8 @@ export default {
       flex-direction: column;
       align-items: center;
       list-style: none;
+      animation: scale-in-hor-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+        both;
       li {
         transition: all 0.75s;
         &:hover {
@@ -192,15 +262,35 @@ export default {
   }
 }
 $breakpoint-tablet: 768px;
+$breakpoint-laptop: 1024px;
 
 @media (min-width: $breakpoint-tablet) {
   .container {
     .content {
       flex-direction: row;
+      width: calc(100% - 400px);
+      justify-content: normal;
+
+      height: 0px;
+      .stats {
+        animation: slide-left-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+      }
+      .stats_advanced {
+        animation: slide-right-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+          both;
+      }
     }
     .evolutions {
       ul {
         flex-direction: row;
+      }
+    }
+  }
+}
+@media (min-width: $breakpoint-tablet) {
+  .container {
+    .content {
+      .stats {
       }
     }
   }

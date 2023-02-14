@@ -73,8 +73,11 @@ export default {
         return;
       }
 
+      setTimeout(() => {
+        this.showCard = true;
+      }, 1);
+      this.showCard = false;
       this.pokeData = data;
-      this.showCard = true;
       this.pokeName = "";
     },
   },
@@ -87,6 +90,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .container {
   text-align: center;
 
@@ -146,6 +158,8 @@ export default {
 
     -webkit-box-shadow: 0px 0px 9px -1px #ffffff;
     box-shadow: 0px 0px 9px -1px #ffffff;
+
+    animation: scale-up-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
     img {
       width: 150px;
       height: 150px;
