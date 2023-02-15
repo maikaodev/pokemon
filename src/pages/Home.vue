@@ -6,29 +6,36 @@
     </div>
 
     <section class="content">
-      <form @submit.prevent="findPokemon">
+      <form @submit.prevent="findPokemon" data-testid="form">
         <input
+          data-testid="form_input"
           v-model="pokeName"
           type="text"
           placeholder="Encontre seu pokémon"
           aria-label="Encontre seu pokémon"
           required
         />
-        <button type="submit">Buscar</button>
+        <button data-testid="form_button" type="submit">Buscar</button>
       </form>
     </section>
 
     <Alert v-if="alert_message" :message="alert_message" />
 
     <router-link
+      data-testid="card"
       v-show="showCard"
       :to="pokeData.detailsUrl || '/'"
       class="card"
     >
-      <img :src="pokeData.sprites?.front_default" :alt="pokeData.name" />
-      <span>{{ pokeData.name }}</span>
+      <img
+        data-testid="card_img"
+        :src="pokeData.sprites?.front_default"
+        :alt="pokeData.name"
+      />
+      <span data-testid="card_pokename">{{ pokeData.name }}</span>
       <ul>
         <li
+          data-testid="card_poketype"
           v-for="(type, index) in pokeData.types"
           :key="index"
           :class="type.type.name"

@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <router-link :to="{ name: 'home' }">
+  <nav data-testid="menu_navigation">
+    <router-link :to="{ name: 'home' }" data-testid="menu_navigation_icon">
       <img
         src="../../assets/pokebola.png"
         alt="Pokebola"
@@ -10,7 +10,7 @@
     </router-link>
 
     <ul>
-      <li>
+      <li data-testid="menu_navigation_item">
         <router-link :to="{ name: 'home' }">Página Inicial</router-link>
       </li>
     </ul>
