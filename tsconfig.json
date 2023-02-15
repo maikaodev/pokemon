@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "es5",
     "allowJs": true,
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -11,13 +11,19 @@
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": [
-      "ESNext",
-      "DOM"
+      "es5",
+      "dom"
+    ],
+    "types": [
+      "cypress",
+      "node",
+      "@testing-library/cypress"
     ],
     "skipLibCheck": true,
     "noEmit": true
   },
   "include": [
+    "**/*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",

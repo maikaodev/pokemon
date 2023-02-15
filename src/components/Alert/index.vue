@@ -1,6 +1,6 @@
 <template>
-  <div class="alert">
-    <h2>{{ message }}</h2>
+  <div data-testid="alert" class="alert">
+    <h2 data-testid="alert_message">{{ message }}</h2>
   </div>
 </template>
 <script>
