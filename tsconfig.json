@@ -16,7 +16,8 @@
     ],
     "types": [
       "cypress",
-      "node"
+      "node",
+      "@testing-library/cypress"
     ],
     "skipLibCheck": true,
     "noEmit": true
