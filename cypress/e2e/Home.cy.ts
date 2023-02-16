@@ -1,6 +1,6 @@
 import "@testing-library/cypress/";
 
-describe("template spec", () => {
+describe("Home page", () => {
   beforeEach(() => {
     cy.visit("http://localhost:5173/");
   });
