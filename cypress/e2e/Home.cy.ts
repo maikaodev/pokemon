@@ -65,6 +65,22 @@ describe("Home page", () => {
     alert.should("exist").and("be.visible");
     message.contains("Desculpe, nada foi encontrado...");
   });
+
+  it("Going to details page", () => {
+    cy.visit("http://localhost:5173/");
+
+    const button = cy.findByTestId("form_button");
+    const input = cy.findByTestId("form_input");
+
+    input.type("pikachu");
+    button.click();
+
+    const card = cy.findByTestId("card");
+
+    card.click();
+
+    cy.url().should("eq", "http://localhost:5173/detalhes/pikachu");
+  });
 });
 
 export {};
