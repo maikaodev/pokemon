@@ -2,7 +2,7 @@ import "@testing-library/cypress/";
 
 describe("Home page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:5173/");
+    cy.visit("/");
   });
 
   it("Should have a menu navigation", () => {
@@ -67,8 +67,6 @@ describe("Home page", () => {
   });
 
   it("Going to details page", () => {
-    cy.visit("http://localhost:5173/");
-
     const button = cy.findByTestId("form_button");
     const input = cy.findByTestId("form_input");
 
