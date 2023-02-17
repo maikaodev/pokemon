@@ -1,20 +1,20 @@
 <template>
   <div v-show="alert_message" class="alert_component">
-    <Alert :message="alert_message" />
-    <router-Link to="/">Página Inicial</router-Link>
+    <Alert :message="alert_message" backTo="Página Inicial" />
   </div>
 
   <div v-show="showIt" class="container">
-    <h1>{{ pokemonDetails.name }}</h1>
+    <h1 data-testid="details_name">{{ pokemonDetails.name }}</h1>
 
     <img
+      data-testid="details_img"
       :src="pokemonDetails.sprites?.front_default"
       :alt="pokemonDetails.name"
       @click="toggleMoreInfo"
     />
 
     <section class="content">
-      <section class="stats">
+      <section data-testid="details_stats" class="stats">
         <ul>
           <li>Peso: {{ pokemonDetails.weight }} kg</li>
           <li>Altura: {{ pokemonDetails.height }} cm</li>
@@ -22,7 +22,11 @@
         </ul>
       </section>
 
-      <section v-show="showMoreInfo" class="stats_advanced">
+      <section
+        data-testid="details_stats_advanced"
+        v-show="showMoreInfo"
+        class="stats_advanced"
+      >
         <ul>
           <li v-for="(stat, index) in pokemonDetails.stats" :key="index">
             {{ translateStat(stat.stat.name) }}: {{ stat.base_stat }}
@@ -31,7 +35,7 @@
       </section>
     </section>
 
-    <section class="evolutions">
+    <section data-testid="details_evolutions" class="evolutions">
       <h2>Evoluções</h2>
       <ul>
         <li
@@ -104,29 +108,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@keyframes shake-horizontal {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  10%,
-  30%,
-  50%,
-  70% {
-    transform: translateX(-10px);
-  }
-  20%,
-  40%,
-  60% {
-    transform: translateX(10px);
-  }
-  80% {
-    transform: translateX(8px);
-  }
-  90% {
-    transform: translateX(-8px);
-  }
-}
 @keyframes tracking-in-expand {
   0% {
     letter-spacing: -0.5em;
@@ -139,6 +120,7 @@ export default {
     opacity: 1;
   }
 }
+
 @keyframes scale-in-hor-center {
   0% {
     transform: scaleX(0);
@@ -149,6 +131,7 @@ export default {
     opacity: 1;
   }
 }
+
 @keyframes slide-left-top {
   0% {
     transform: translateY(0) translateX(0);
@@ -171,30 +154,7 @@ export default {
   height: 80%;
 
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  a {
-    animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955)
-      both;
-    background: none;
-    color: white;
-
-    padding: 16px;
-
-    font-weight: 700;
-
-    border: 1px solid red;
-
-    cursor: pointer;
-
-    transition-property: background-color;
-    transition-duration: 0.75s;
-
-    &:hover {
-      background-color: red;
-    }
-  }
 }
 .container {
   height: 100%;
@@ -261,6 +221,7 @@ export default {
     }
   }
 }
+
 $breakpoint-tablet: 768px;
 $breakpoint-laptop: 1024px;
 
@@ -283,14 +244,6 @@ $breakpoint-laptop: 1024px;
     .evolutions {
       ul {
         flex-direction: row;
-      }
-    }
-  }
-}
-@media (min-width: $breakpoint-tablet) {
-  .container {
-    .content {
-      .stats {
       }
     }
   }

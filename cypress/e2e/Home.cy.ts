@@ -13,8 +13,7 @@ describe("Home page", () => {
     const menuNavigation = [menu, icon, itemInList];
 
     menuNavigation.forEach((item) => {
-      item.should("exist");
-      item.should("be.visible");
+      item.should("exist").and("be.visible");
     });
   });
 
@@ -26,8 +25,7 @@ describe("Home page", () => {
     const menuNavigation = [form, input, button];
 
     menuNavigation.forEach((item) => {
-      item.should("exist");
-      item.should("be.visible");
+      item.should("exist").and("be.visible");
     });
 
     button.should("be.enabled").and("have.prop", "type", "submit");
@@ -43,11 +41,11 @@ describe("Home page", () => {
 
     input.type("pikachu");
     button.click();
-
     const type = cy.findByTestId("card_poketype");
 
     card.should("exist").and("be.visible");
     image.should("exist").and("be.visible");
+
     name.contains("Pikachu");
     type.contains("electric");
   });
@@ -63,7 +61,10 @@ describe("Home page", () => {
     const message = cy.findByTestId("alert_message");
 
     alert.should("exist").and("be.visible");
-    message.contains("Desculpe, nada foi encontrado...");
+    message
+      .should("exist")
+      .and("be.visible")
+      .contains("Desculpe, nada foi encontrado...");
   });
 
   it("Going to details page", () => {
