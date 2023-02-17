@@ -1,7 +1,9 @@
 <template>
   <div data-testid="alert" class="alert">
     <h2 data-testid="alert_message">{{ message }}</h2>
-    <router-Link to="/" v-show="backTo">{{ backTo ? backTo : "" }}</router-Link>
+    <router-Link data-testid="alert_link" to="/" v-show="backTo">
+      {{ backTo ? backTo : "" }}
+    </router-Link>
   </div>
 </template>
 <script>
