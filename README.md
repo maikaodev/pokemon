@@ -36,4 +36,4 @@ https://www.linkedin.com/in/maikaodev/
 - [x] -> Melhorar uso de store global
 
 - [ ] -> Adicionar testes unitários
-- [ ] -> Adicionar testes e2e
+- [x] -> Adicionar testes e2e
