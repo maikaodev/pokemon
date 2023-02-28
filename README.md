@@ -27,13 +27,5 @@ https://www.linkedin.com/in/maikaodev/
 
 ### Tarefas:
 
-- [x] -> Criar um input para pegar o nome do Pokémon.
-- [x] -> Retornar informações do Pokémon e suas evoluções.
-- [x] -> Mostrar as principais informações ao clicar no Pokémon:
-      HP, Attack, Defense, Special Attack, Special Defense and speed. (Posso mostrar mais informações)
-- [x] -> Mostrar em tela caso não existe o pokémon procurado.
-- [x] -> Melhorar a formatação dos status - valores e nomes
-- [x] -> Melhorar uso de store global
-
 - [ ] -> Adicionar testes unitários
 - [x] -> Adicionar testes e2e
