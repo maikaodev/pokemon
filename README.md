@@ -29,3 +29,4 @@ https://www.linkedin.com/in/maikaodev/
 
 - [ ] -> Adicionar testes unitários
 - [x] -> Adicionar testes e2e
+- [ ] -> Migrar para Nuxt.js
