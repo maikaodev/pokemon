@@ -10,7 +10,7 @@
 ### Descrição
 
 O projeto consome uma [API](https://pokeapi.co/) onde obtém os dados dos Pokémons.
-O projeto usa vite, vue 3, pinia e vue router.
+O projeto usa vite, vue 3, pinia e vue router. O projeto conta com um sistema de armazenamento temporário que evita requisições da mesma informação ao servidor, além de ser um aplicativo com testes para garantir a qualidade do software.
 
 Para executar o projeto rode os seguintes comandos:
 
